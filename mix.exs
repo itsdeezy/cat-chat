@@ -35,6 +35,9 @@ defmodule CatChat.MixProject do
     [
       {:absinthe, "~> 1.4"},
       {:absinthe_plug, "~> 1.4"},
+      {:absinthe_relay, "~> 1.4.0"},
+      # TODO: remove :override https://github.com/absinthe-graphql/absinthe_relay/pull/125
+      {:ecto, "~> 3.0", override: true},
       {:ecto_sql, "~> 3.0"},
       {:jason, "~> 1.1"},
       {:phoenix, "~> 1.4.0"},
