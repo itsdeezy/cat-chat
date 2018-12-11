@@ -7,6 +7,7 @@ defmodule CatChatWeb.Schema do
   """
   use Absinthe.Schema
   use Absinthe.Relay.Schema, :modern
+  import CatChatStore.Factory
 
   import_types CatChatWeb.Types.Participant
   import_types CatChatWeb.Types.Message
@@ -16,26 +17,22 @@ defmodule CatChatWeb.Schema do
     resolve_type &CatChatWeb.Resolvers.Node.resolve/2
   end
 
-  @test_messages [%{id: 1, text: "hi"}]
-  @test_participants [%{id: 1, name: "dude", messages: @test_messages}]
-  @test_rooms [%{id: 1, name: "test", participants: @test_participants}]
-
   query do
     field :participants, list_of(:participant) do
       resolve fn _args, _ctx ->
-        {:ok, @test_participants}
+        {:ok, build_list(3, :participant)}
       end
     end
 
     field :messages, list_of(:message) do
       resolve fn _args, _ctx ->
-        {:ok, @test_messages}
+        {:ok, build_list(3, :message)}
       end
     end
 
     field :rooms, list_of(:room) do
       resolve fn _args, _ctx ->
-        {:ok, @test_rooms}
+        {:ok, build_list(3, :room)}
       end
     end
   end

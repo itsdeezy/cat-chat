@@ -19,3 +19,4 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
   * Absinthe (GraphQL): https://hexdocs.pm/absinthe/index.html
   * Ecto (Store): https://hexdocs.pm/ecto/index.html
   * Phoenix (Framework): https://hexdocs.pm/phoenix/index.html
+  * ExMachina (Factory): https://hexdocs.pm/ex_machina/ExMachina.html

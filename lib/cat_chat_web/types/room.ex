@@ -5,6 +5,7 @@ defmodule CatChatWeb.Types.Room do
   use Absinthe.Schema.Notation
   use Absinthe.Relay.Schema.Notation, :modern
   alias Absinthe.Relay.Connection
+  import CatChatStore.Factory
 
   @desc """
   A room, has many participants
@@ -15,8 +16,9 @@ defmodule CatChatWeb.Types.Room do
     connection field :participants, node_type: :participant do
       description "A connection of participants in this chat"
 
-      resolve fn pagination_args, %{source: room} ->
-        Connection.from_list(room.participants, pagination_args)
+      resolve fn pagination_args, _ctx ->
+        participants = build_list(pagination_args.first, :participant)
+        Connection.from_list(participants, pagination_args)
       end
     end
   end

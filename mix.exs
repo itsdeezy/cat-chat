@@ -39,6 +39,8 @@ defmodule CatChat.MixProject do
       # TODO: remove :override https://github.com/absinthe-graphql/absinthe_relay/pull/125
       {:ecto, "~> 3.0", override: true},
       {:ecto_sql, "~> 3.0"},
+      # TODO: move ex_machina to :test when stubbing not needed
+      {:ex_machina, "~> 2.2"},
       {:jason, "~> 1.1"},
       {:phoenix, "~> 1.4.0"},
       {:phoenix_ecto, "~> 4.0"},
