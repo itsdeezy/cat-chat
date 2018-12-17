@@ -20,7 +20,7 @@ defmodule CatChat.MixProject do
   def application do
     [
       mod: {CatChat.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :gproc]
     ]
   end
 
@@ -41,6 +41,7 @@ defmodule CatChat.MixProject do
       {:ecto_sql, "~> 3.0"},
       # TODO: move ex_machina to :test when stubbing not needed
       {:ex_machina, "~> 2.2"},
+      {:gproc, "~> 0.8.0"},
       {:jason, "~> 1.1"},
       {:phoenix, "~> 1.4.0"},
       {:phoenix_ecto, "~> 4.0"},
