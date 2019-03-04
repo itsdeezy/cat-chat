@@ -7,10 +7,9 @@ defmodule CatChatWeb.Types.Message do
 
   connection node_type: :message
 
-  @desc """
-  A message, belongs to a participant
-  """
   node object :message do
+    description "A message, belongs to a participant"
+
     field :text, non_null(:string)
   end
 end

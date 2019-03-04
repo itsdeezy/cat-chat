@@ -2,12 +2,11 @@ defmodule CatChatWeb.Schema do
   @moduledoc """
   Main GraphQL schema
 
-  Avoid defining anything in here. Instead, create a module with your
-  types/queries/mutations and import them here.
+  Avoid defining any types in here. Instead, create a module with your
+  types and import them here.
   """
   use Absinthe.Schema
   use Absinthe.Relay.Schema, :modern
-  import CatChatStore.Factory
 
   import_types CatChatWeb.Types.Participant
   import_types CatChatWeb.Types.Message
@@ -18,22 +17,22 @@ defmodule CatChatWeb.Schema do
   end
 
   query do
-    field :participants, list_of(:participant) do
-      resolve fn _args, _ctx ->
-        {:ok, build_list(3, :participant)}
-      end
+    connection field :participants, node_type: :participant do
+      description "Root query field for participants"
+
+      resolve &CatChatWeb.Resolvers.Participant.resolve/2
     end
 
-    field :messages, list_of(:message) do
-      resolve fn _args, _ctx ->
-        {:ok, build_list(3, :message)}
-      end
+    connection field :messages, node_type: :message do
+      description "Root query field for messages"
+
+      resolve &CatChatWeb.Resolvers.Message.resolve/2
     end
 
-    field :rooms, list_of(:room) do
-      resolve fn _args, _ctx ->
-        {:ok, build_list(3, :room)}
-      end
+    connection field :rooms, node_type: :room do
+      description "Root query field for rooms"
+
+      resolve &CatChatWeb.Resolvers.Room.resolve/2
     end
   end
 end
