@@ -4,14 +4,12 @@ defmodule CatChatWeb.Resolvers.Participant do
   import CatChatStore.Factory
 
   def resolve(pagination_args, _ctx) do
-    3
-    |> build_list(:participant)
+    CatChatOtp.Supervisors.Participant.children()
     |> Connection.from_list(pagination_args)
   end
 
-  def resolve(%CatChatStore.Schemas.Room{id: id}, pagination_args, _ctx) do
-    3
-    |> build_list(:participant, room_id: id)
+  def resolve(%{name: name}, pagination_args, _ctx) do
+    CatChatOtp.Room.participants_in(name)
     |> Connection.from_list(pagination_args)
   end
 end

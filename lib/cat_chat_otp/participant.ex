@@ -2,39 +2,46 @@ defmodule CatChatOtp.Participant do
   @moduledoc """
   GenServer Participant process
 
-  Supervised by: CatChatOtp.ParticipantSupervisor
+  Supervised by: CatChatOtp.Supervisors.Participant
   """
 
   use GenServer
-  alias CatChatOtp.Utils.Gproc
 
   @proc_type :n
   @proc_scope :l
-  @proc_key __MODULE__
+  @name __MODULE__
 
-  def lookup(name) do
-    Gproc.lookup({@proc_key, name})
+  def messages_from(name) do
+    {:ok, pid} = CatChatOtp.Utils.Gproc.lookup({@name, name})
+
+    GenServer.call(pid, :messages)
   end
 
-  def start_link(name) do
-    IO.puts("Starting new CatChatOtp.Participant - #{name}")
-    GenServer.start_link(__MODULE__, :ok, name: via_tuple(name))
+  def handle_call(:messages, _from, state) do
+    %{messages: messages} = state
+
+    {:reply, messages, state}
   end
 
-  def init(:ok) do
-    {:ok, nil}
-  end
-
-  def child_spec(name) do
+  def child_spec(participant_name) do
     %{
-      id: __MODULE__,
-      start: {__MODULE__, :start_link, [name]},
+      id: participant_name,
+      start: {@name, :start_link, [participant_name]},
       restart: :temporary,
       type: :worker
     }
   end
 
-  defp via_tuple(name) do
-    {:via, :gproc, {@proc_type, @proc_scope, {@proc_key, name}}}
+  def start_link(participant_name) do
+    IO.puts("Starting #{ @name }: #{ participant_name }")
+    GenServer.start_link(@name, :ok, name: via_tuple(participant_name))
+  end
+
+  def init(:ok) do
+    {:ok, %{messages: []}}
+  end
+
+  defp via_tuple(participant_name) do
+    {:via, :gproc, {@proc_type, @proc_scope, {@name, participant_name}}}
   end
 end

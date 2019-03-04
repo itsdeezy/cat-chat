@@ -9,8 +9,8 @@ defmodule CatChat.Application do
 
   def start(_type, _args) do
     children = [
-      CatChatOtp.ParticipantSupervisor,
-      CatChatOtp.RoomSupervisor,
+      CatChatOtp.Supervisors.Participant,
+      CatChatOtp.Supervisors.Room,
       CatChatStore.Repo,
       CatChatWeb.Endpoint
     ]

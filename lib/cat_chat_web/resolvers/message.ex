@@ -3,19 +3,9 @@ defmodule CatChatWeb.Resolvers.Message do
   alias Absinthe.Relay.Connection
   import CatChatStore.Factory
 
-  def resolve(pagination_args, _ctx) do
-    3
-    |> build_list(:message)
-    |> Connection.from_list(pagination_args)
-  end
-
-  def resolve(
-    %CatChatStore.Schemas.Participant{id: id},
-    pagination_args,
-    _ctx
-  ) do
-    3
-    |> build_list(:participant, participant_id: id)
+  def resolve(%{name: name}, pagination_args, _ctx) do
+    name
+    |> CatChatOtp.Participant.messages_from()
     |> Connection.from_list(pagination_args)
   end
 end

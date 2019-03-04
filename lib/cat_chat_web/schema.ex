@@ -23,12 +23,6 @@ defmodule CatChatWeb.Schema do
       resolve &CatChatWeb.Resolvers.Participant.resolve/2
     end
 
-    connection field :messages, node_type: :message do
-      description "Root query field for messages"
-
-      resolve &CatChatWeb.Resolvers.Message.resolve/2
-    end
-
     connection field :rooms, node_type: :room do
       description "Root query field for rooms"
 
